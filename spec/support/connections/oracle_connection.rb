@@ -5,7 +5,9 @@ require 'logger'
 ENV['ADAPTER'] = 'oracle'
 
 # Prepend oracle_enhanced local development directory in front of load path
-$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../../../oracle-enhanced/lib"
+ENV['ORACLE_ENHANCED_PATH'] ||= File.expand_path('../../../../../oracle-enhanced', __FILE__)
+$LOAD_PATH.unshift File.join(ENV['ORACLE_ENHANCED_PATH'], 'lib')
+require 'active_record/connection_adapters/oracle_enhanced_adapter'
 
 ActiveRecord::Base.configurations = {
   'unit' => {
